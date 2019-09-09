@@ -1,0 +1,32 @@
+<form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+  <div class="row">
+    <div class="col-12">
+      <div class="form-group">
+        <label class="input-label">Registered Email</label>
+        <input type="email" id="email" formControlName="user" class="form-control" placeholder="Enter Email" />
+        <div *ngIf="user.invalid && (user.dirty || user.touched)" class="text-danger" maxlength="255">
+
+          <div *ngIf="user.errors.required">
+            Username is required
+          </div>
+          <div *ngIf="user.errors.minlength">
+            Username must be at least 4 characters long.
+          </div>
+        </div>
+      </div>
+      
+      <div class="response"></div>
+      
+    </div>
+    <div class="col-6">
+      <div class="form-group text-left">
+        <button type="submit" class="btn btn-md btn-primary" [disabled]="!loginForm.valid" >Reset Password</button>
+      </div>
+    </div>
+    <div class="col-6 align-self-center">
+      <div class="form-group text-right">
+        <a href="#" class="text-info" (click)="flipcard('front')">Login</a>
+      </div>
+    </div>
+  </div>
+</form>

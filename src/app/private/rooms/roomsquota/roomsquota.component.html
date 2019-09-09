@@ -1,0 +1,51 @@
+<div id="wrapper">
+  
+    
+      <app-navigation></app-navigation>
+      
+      <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+          <app-topbar></app-topbar>
+          <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Rooms Quota</h1>
+            
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="table-responsive">
+                      <table class="table table-sm table-hover">
+                        <thead>
+                          <tr>
+                              <th>QuotaID</th>
+                              <th class="text-center">QuotaType</th>
+                              <th class="text-center">Countries</th>
+                              <th class="text-right">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let quota of quotas; let i = index;">
+                            <th>{{quota.typeid}}</th>
+                            <td class="text-center">{{quota.typename}}</td>
+                            <td class="text-center">{{quota.cnt}}</td>
+                            <td class="text-right"><button class="btn btn-sm btn-info">Manage</button></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>   
+      </div>
+</div>

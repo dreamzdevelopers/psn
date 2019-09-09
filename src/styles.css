@@ -1,0 +1,121 @@
+/* Add application styles & imports to this file! */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+@keyframes preload {
+    0%{
+        opacity: 0.5;
+/*         font-size: 10px; */
+/* 				font-weight: 400; */
+				filter: blur(5px);
+				letter-spacing: 3px;
+        }
+    100%{
+				opacity: 1;
+				filter: blur(0); 
+/*         opacity: 1; */
+/*         font-size: 12px; */
+/* 				font-weight:600; */
+/* 				filter: blur(0); */
+        }
+}
+
+.preloader{
+  display:flex;
+	justify-content: center;
+	align-items: center;
+	height:100%;
+	margin: auto;
+/* 	width: 350px; */
+/* 	font-size:26px; */
+	font-family: Helvetica, sans-serif, Arial;
+	animation: preload 1.2s infinite 0s ease-in-out;
+	animation-direction: alternate;
+	text-shadow: 0 0 1px white;
+}
+.navigation{
+  float: left;
+  width:18vw; 
+  height: 100%;
+}
+.page-content{
+  float:left;
+  width:81vw;
+  padding: 1em 1.8em;
+}
+.login-form{
+  max-width:30%;
+  padding:1vw;
+  margin: auto;
+  position: relative;
+}
+small{
+  font-size: 50%;
+}
+.boss-content{
+  display:flex;
+}
+.boss{
+  flex:.95;
+}
+.boss-row{
+  min-height: 90vh;
+}
+
+.flip-card {
+  background-color: transparent;
+  padding:1vw;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+    transition: all .5s linear;
+
+  transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card.flip .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+.flip-card-back {
+  position:absolute;
+  top:0;left:0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
+  background-color: #fff;
+  color: black;
+}
+
+/* Style the back side */
+.flip-card-back {
+  background-color: #fff;
+  transform: rotateY(180deg);
+}
+@media(max-width:768px){
+  .login-form{
+    max-width: 90%;
+  }
+
+  .boss{
+    flex:1;
+  }
+}

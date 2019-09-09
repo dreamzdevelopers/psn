@@ -1,0 +1,57 @@
+<div id="wrapper">
+  
+    
+      <app-navigation></app-navigation>
+      
+      <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+          <app-topbar></app-topbar>
+          <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Transactions</h1>
+            
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <table class="table table-hover table-sm">
+                    <thead>
+                      <tr>
+                        <th style="text-align:left;width:20%;">TransTime</th>
+                        <th style="text-align:center;width:10%;">TransID</th>
+                        <th style="text-align:center;width:10%;">PaymentID</th>
+                        <th style="text-align:center;width:15%;">Amount</th>
+                        <th style="text-align:center;width:15%;">Method</th>
+                        <th style="text-align:center; width:15%;">BookingID</th>
+                        <th style="text-align:center;width:10%;">Status</th>
+                        <th style="text-align:right;width:15%;"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let trans of transactionlist">
+                        <td class="text-LEFT">{{trans.pdate}}</td>
+                        <td class="text-center">{{trans.transid ? trans.transid : 'NA'}}</td>
+                        <td class="text-center">{{trans.pyid ? trans.pyid : 'NA'}}</td>
+                        <td class="text-center"><i class="fa fa-rupee"></i>{{trans.amount}}</td>
+                        <td class="text-center">{{trans.method}}</td>
+                        <td class="text-center">{{transtype[trans.transtype]}}{{trans.bkid}}</td>
+                        <td class="text-center"><span class="badge" [ngClass]='{"badge-success":status[trans.pstatus].type=="RES", "badge-info":status[trans.pstatus].type=="INF", "badge-danger":status[trans.pstatus].type=="ERR","badge-warning":status[trans.pstatus].type=="WAR"}' *ngIf="app.vartype(trans.pstatus)!=='undefined'">{{status[trans.pstatus].name}}</span></td>
+                        <td class="text-right"><button class="cursor-pointer btn btn-sm btn-info">View</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>   
+      </div>
+</div>

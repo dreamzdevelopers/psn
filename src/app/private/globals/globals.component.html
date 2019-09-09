@@ -1,0 +1,45 @@
+<div id="wrapper">
+  
+    
+      <app-navigation></app-navigation>
+      
+      <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+          <app-topbar></app-topbar>
+          <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Global Settings</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm glowing" style="z-index:99; right:2%; position:fixed;" data-toggle="modal" *ngIf="changed" data-target="#setupGlobals" (click)="saveChanges();"><i class="fa fa-save fa-sm text-white-50"></i> Save Changes</a>
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row" *ngFor="let global of globals; let i = index;">
+                    <div class="col-md-8 col-sm-6 col-12 align-self-center">
+                      <div class="form-group">
+                        {{global.meta_description}}
+                      </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-12 align-self-center">
+                      <div class="form-group"> 
+                        <input type="time" [(ngModel)]="global.meta_val" (ngModelChange)="setGlobals(i)" *ngIf="global.meta_type=='time'" class="form-control" />
+                        <input type="number" [(ngModel)]="global.meta_val" (ngModelChange)="setGlobals(i)" *ngIf="global.meta_type=='int'" class="form-control" />
+                        <input type="number" [(ngModel)]="global.meta_val" (ngModelChange)="setGlobals(i)" *ngIf="global.meta_type!=='time'&&global.meta_type!=='int'" class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>   
+      </div>
+</div>

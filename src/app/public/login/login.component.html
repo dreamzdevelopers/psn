@@ -1,0 +1,49 @@
+<form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+  <div class="row">
+    <div class="col-12">
+      <div class="form-group">
+        <label class="input-label">Username</label>
+        <input type="text" id="user" formControlName="user" class="form-control" placeholder="Enter username" />
+        <div *ngIf="user.invalid && (user.dirty || user.touched)" class="text-danger" maxlength="20">
+
+          <div *ngIf="user.errors.required">
+            Username is required
+          </div>
+          <div *ngIf="user.errors.minlength">
+            Username must be at least 4 characters long.
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="input-label">Password</label>
+        <input type="password" id="pass" formControlName="pass" class="form-control" placeholder="Enter password" autocomplete="off" maxlength="20" />
+        <div *ngIf="pass.invalid && (pass.dirty || pass.touched)" class="text-danger">
+
+          <div *ngIf="pass.errors.required">
+            Password is required
+          </div>
+          <div *ngIf="pass.errors.minlength">
+            Password must be at least 4 characters long.
+          </div>
+          
+        </div>
+      </div>
+      <div class="response" *ngIf="loginResp">
+        <div [class]="'alert alert-' + loginResp.type">
+           {{ loginResp.text }}
+        </div>
+      </div>
+      
+    </div>
+    <div class="col-6">
+      <div class="form-group text-left">
+        <button type="submit" class="btn btn-md btn-primary" [disabled]="!loginForm.valid" >Login</button>
+      </div>
+    </div>
+    <div class="col-6 align-self-center">
+      <div class="form-group text-right">
+        <a href="#" class="text-info" (click)="flipcard('back')">Reset Password</a>
+      </div>
+    </div>
+  </div>
+</form>

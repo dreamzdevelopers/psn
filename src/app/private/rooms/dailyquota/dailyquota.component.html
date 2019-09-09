@@ -1,0 +1,215 @@
+<div id="wrapper">
+  
+    
+      <app-navigation></app-navigation>
+      
+      <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+          <app-topbar></app-topbar>
+          <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Daily Rooms Quota</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm" data-toggle="modal" data-target="#setupQuota"><i class="fa fa-tasks fa-sm text-white-50"></i> Setup New Quota</a>
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                          <select class="form-control" [(ngModel)]="selectedquotaid" (ngModelChange)="getQuota($event)">
+                              <option [ngValue]="0">Select Quota</option>
+                              <option *ngFor="let quota of quotas" [ngValue]="quota.typeid"> 
+                                {{quota.typename}}
+                              </option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                          <div class="input-group mb-2">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">Room Type <small>&nbsp;(optional)</small></div>
+                          </div>
+                          <select class="form-control" [(ngModel)]="selectedroom" (ngModelChange)="getQuota($event)">
+                              <option [ngValue]="0">All Rooms</option>
+                             
+                                <option *ngFor="let room of rooms" [ngValue]="room.id"> 
+                                  {{room.type}}
+                                </option>
+                              
+                              
+                          </select>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                      <div class="form-group">
+                        <div class="input-group mb-2">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">From&nbsp;<small> (optional)</small></div>
+                          </div>
+                          <input type="text" class="form-control" placeholder="(Default: Today)" [(ngModel)]="fromdate" ngbDatepicker #d1="ngbDatepicker" (click)="d1.toggle()" (ngModelChange)="getQuota()">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                      <div class="form-group">
+                        <div class="input-group mb-2">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">To&nbsp;<small> (optional)</small></div>
+                          </div>
+                          <input type="text" class="form-control datepicker" placeholder="(Default: Today + 30 Days)" [(ngModel)]="todate" ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()" (ngModelChange)="getQuota()" >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="found == -1 && serverresp">
+                    <div class="col-md-6 col-6">
+                      <button class="" [class]="found == -1 && serverresp ? 'btn btn-md btn-success glowing' : 'btn btn-md btn-success'" (click)="getResult()">Find</button>
+                    </div>
+                    <div class="col-md-6 col-6 text-right">
+                      <button class="btn btn-md btn-info" (click)="resetQuota()">Default</button>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-12 align-self-center">
+                      <div class="text-center" *ngIf="!serverresp">
+                        Please Select Quota<hr />
+                      </div>
+                      <div class="text-center text-danger display-4" *ngIf="loading">
+                        Please wait... Loading...<hr />
+                      </div>
+                      <div class="text-center" *ngIf="serverresp">
+                        
+                        <div class="no-result" *ngIf="found > 0 && dailyquotalist.length == 0">
+                          <div class="display-4 text-center">
+                            No Record Available
+                            <hr />
+                          </div>
+                        </div>
+                        <div class="result table-responsive" *ngIf="dailyquotalist.length > 0">
+                          <div class="display-5 text-center">
+                            {{dailyquotalist.length}} Records Found
+                            <hr />
+                          </div>
+                          <table mdbTable class="table table-hover table-sm">
+                              <thead>
+                                <tr>
+                                  <th >#</th>
+                                  <th [mdbTableSort]="dailyquotalist" class="cursor-pointer" sortBy="qdate">Quota Date <i class="fa fa-sort"></i></th>
+                                  <th [mdbTableSort]="dailyquotalist" class="cursor-pointer" sortBy="roomtype">Room <i class="fa fa-sort"></i></th>
+                                  <th>Available</th>
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let quotalist of dailyquotalist; let i = index">
+                                  <th scope="row">{{i + 1}}</th>
+                                  <td>{{quotalist.qdate}}</td>
+                                  <td>{{quotalist.roomtype}}</td>
+                                  <td>{{quotalist.available}}</td>
+                                  
+                                  <td class="position-relative">
+                                    <a class="cursor-pointer" >Edit</a> | <a class="cursor-pointer" (click)="delete(i,quotalist.id)" >Delete</a>
+                                    <div class="delete-confirm bg-default" *ngIf="quotalist.delete">
+                                      <div class="row h-100">
+                                        <div class="col-12 align-self-center">
+                                          Are you sure to delete this record? <a class="cursor-pointer badge badge-danger text-white" (click)="deleteItem(i,quotalist.id)">Yes</a> | <a class="cursor-pointer badge badge-success text-white" (click)="deleteCancel(i,quotalist.id)">No</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>   
+      </div>
+</div>
+<div class="modal fade" id="setupQuota" tabindex="-1" role="dialog" aria-labelledby="setupQuota" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="setupQuota">Setup Daily Quota</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+            <div class="row">
+              
+              <div class="col-md-6 col-12">
+                <div class="form-group">
+                  <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">From</div>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Start Date" [minDate]="app.dt2ngbdt(today)" ngbDatepicker #nd1="ngbDatepicker" (click)="nd1.toggle()" [(ngModel)]="_new.from"  (ngModelChange)="newQuota()" (blur)="validate()">
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <div class="form-group">
+                  <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">To</div>
+                    </div>
+                    <input type="text" class="form-control" placeholder="End Date"  [minDate]="app.dt2ngbdt(today)" [(ngModel)]="_new.to" ngbDatepicker #nd2="ngbDatepicker" (click)="nd2.toggle()" (ngModelChange)="newQuota()" (blur)="validate()">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 col-12">
+                  <div class="form-group">
+                    <select class="form-control" [(ngModel)]="_new.roomid" (ngModelChange)="newQuota()" (change)="validate()">
+                        <option [ngValue]="0">Select Room</option>
+                        <option *ngFor="let room of rooms" [ngValue]="room.id"> 
+                          {{room.type}}
+                        </option>
+                    </select>
+                  </div>
+              </div>
+              <div class="col-md-4 col-12">
+                  <div class="form-group">
+                    <select class="form-control" [(ngModel)]="_new.quota" (ngModelChange)="newQuota()"  (change)="validate()">
+                        <option [ngValue]="0">Select Quota</option>
+                        <option *ngFor="let quota of quotas" [ngValue]="quota.typeid"> 
+                          {{quota.typename}}
+                        </option>
+                    </select>
+                  </div>
+              </div>
+              <div class="col-md-4 col-12">
+                  <div class="form-group">
+                    <input type="number" min="0" class="form-control" placeholder="Available Rooms"  [(ngModel)]="_new.available" (ngModelChange)="newQuota()"  (change)="validate()">
+                  </div>
+              </div>
+            </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-info" (click)="setupQuota()">Setup</button>
+      </div>
+    </div>
+  </div>
+</div>

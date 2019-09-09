@@ -1,0 +1,55 @@
+<div id="wrapper">
+  
+    
+    <app-navigation></app-navigation>
+    
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+        <app-topbar></app-topbar>
+        <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 class="h3 mb-0 text-gray-800">All Pages</h1>
+          
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-sm table-hover">
+                    <thead>
+                      <tr>
+                          <th>Title</th>
+                          <th class="text-center">Slug</th>
+                          <th class="text-center">Created On</th>
+                          <th class="text-center">Author</th>
+                          <th class="text-center">Status</th>
+                          <th class="text-right"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let page of pages">
+                          <th><strong [innerHTML]="page.title"></strong></th>
+                          <td class="text-center">{{ page.slug }}</td>
+                          <td class="text-center">{{ page.created }}</td>
+                          <td class="text-center">{{ page.author }}</td>
+                          <td class="text-right"><span [class]="status[page.status].class">{{status[page.status].text}}</span></td>
+                          <td class="text-right"><button class="btn btn-sm btn-success"><i class="fa fa-eye"></i></button> | <button class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button></td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>   
+    </div>
+</div>

@@ -1,0 +1,184 @@
+<div id="wrapper">
+  
+    
+      <app-navigation></app-navigation>
+      
+      <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+          <app-topbar></app-topbar>
+          <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Rooms Type</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm" data-toggle="modal" data-target="#newRoom"><i class="fas fa-square fa-sm text-white-50"></i> New Room</a>
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <table class="table table-hover table-md">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        
+                        <th>Type</th>
+                        <th>Unique Code <small>(For Group Booking)</small></th>
+                        <th>Detail</th>
+                        <th>Rent</th>
+                        <th>Available</th>
+                        <th>status</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let room of rooms; let i = index;">
+                        <th class="align-middle">{{ i+1 }}</th>
+                        
+                        <td class="align-middle">
+                            <input type="text" maxlength="100" [class]="room.code == '' ? 'form-control input-invalid' : 'form-control'" placeholder="Room Type"  [(ngModel)]="room.type" (ngModelChange)="changeRoom(i, $event);">
+                            <div class="badge badge-danger" *ngIf="room.type == ''">Room Type is required</div>
+                        </td>
+                        <td class="align-middle">
+                            <input type="text" maxlength="10" [class]="room.code == '' ? 'form-control input-invalid' : 'form-control'" placeholder="Room Code"  [(ngModel)]="room.code" (ngModelChange)="changeRoom(i, $event);">
+                            <div class="badge badge-danger" *ngIf="room.code == ''">Room Code is required</div>
+                        </td>
+                        <td class="align-middle">
+                            <textarea maxlength="400" [class]="room.detail == '' ? 'form-control input-invalid' : 'form-control'" placeholder="Detail"  [(ngModel)]="room.detail" (ngModelChange)="changeRoom(i, $event);" rows="3"></textarea>
+                            <div class="badge badge-danger" *ngIf="room.detail == ''">Room Code is required</div>
+                        </td>
+                        <td class="align-middle">
+                            <input type="number" step="any" min="0" [class]="room.rent == null ? 'form-control input-invalid' : 'form-control'" placeholder="Rent"  [(ngModel)]="room.rent" (blur)="changeRoom(i, $event);">
+                            <div class="badge badge-danger" *ngIf="room.rent == null">Rent must be numeric</div>
+                        </td>
+                        <td class="align-middle">
+                            <input type="number" step="1" min="0" [class]="room.available == null ? 'form-control input-invalid' : 'form-control'" placeholder="Available"  [(ngModel)]="room.available" (ngModelChange)="changeRoom(i, $event);">
+                            <div class="badge badge-danger" *ngIf="room.available == null">Available must be numeric</div>
+                        </td>
+                        <td class="align-middle">
+                          <div class="material-switch">
+                            <input id="roomswitch{{i}}" name="roomswitch{{i}}" type="checkbox"  [(ngModel)]="room.status" (ngModelChange)="changeRoom(i, $event);"/>
+                            <label for="roomswitch{{i}}" class="badge-success"></label>
+                          </div>
+                        </td>
+                        <td class="align-middle">
+                          <a class="cursor-pointer text-danger" (click)="deleteRoom(i)"><i class="fa fa-window-close"></i></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-12" *ngIf="changed">
+              <div class="card">
+                <div class="card-body">
+                  <div class="text-right">
+                    <button class="btn btn-success glowing" (click)="saveChanges()">Save Changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>   
+      </div>
+</div>
+<div class="notification-fullscreen blur-out" *ngIf="updated">
+  <div class="boss">
+    <div class="row boss-row">
+      <div class="col-sm-4 col-12">
+      </div>
+      <div class="col-sm-4 col-12 align-self-center text-center">
+        <h1>Changes made to </h1>
+        <hr />
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-info" *ngFor="let update of updated">{{ update }}</li>
+        </ul>
+      </div>
+      <div class="col-sm-4 col-12">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="notification-fullscreen blur-out" *ngIf="newsaved">
+  <div class="boss">
+    <div class="row boss-row">
+      <div class="col-sm-4 col-12">
+      </div>
+      <div class="col-sm-4 col-12 align-self-center text-center">
+        <h1 [class]="notification.respType == 'RES' || notification.respType == 'INF' ? 'text-success' : 'text-danger'">{{notification.resp}}</h1>
+        
+      </div>
+      <div class="col-sm-4 col-12">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="newRoom" tabindex="-1" role="dialog" aria-labelledby="newRoomLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newRoomLabel">Add New Room</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+            <div class="row">
+              <div class="col-md-12 col-12">
+                  <div class="form-group">
+                    <label>Room Type</label>
+                    <input type="text" maxlength="100" class="form-control" placeholder="Room Type"  [(ngModel)]="_new.roomtype" (ngModelChange)="newRoom()">
+                    <div class="badge badge-danger" *ngIf="_new.roomtype == null || _new.roomtype == ''">Room Type is required</div>
+                  </div>
+              </div>
+              <div class="col-md-12 col-12">
+                  <div class="form-group">
+                    <label>Room Detail</label>
+                    <textarea class="form-control" maxlength="400" placeholder="Room Detail"  [(ngModel)]="_new.detail" (ngModelChange)="newRoom()"></textarea>
+                    <div class="badge badge-danger" *ngIf="_new.detail == null || _new.detail == ''">Room Detail is required</div>
+                  </div>
+              </div>
+              <div class="col-md-4 col-12">
+                  <div class="form-group">
+                    <label>Room code</label>
+                    <input type="text" maxlength="10" class="form-control" placeholder="Room Code without space"  [(ngModel)]="_new.roomcode" (ngModelChange)="newRoom()">
+                    <div class="badge badge-danger" *ngIf="_new.roomcode == null || _new.detail == ''">Room Code is required</div>
+                  </div>
+              </div>
+              <div class="col-md-4 col-12">
+                  <div class="form-group">
+                    <label>Rent</label>
+                    <input type="number" class="form-control" min="0" placeholder="Rent" step="any" [(ngModel)]="_new.rent" (ngModelChange)="newRoom()">
+                    <div class="badge badge-danger" *ngIf="_new.rent == null || _new.rent == ''">Room Rent is required</div>
+                  </div>
+              </div>
+              <div class="col-md-4 col-12">
+                  <div class="form-group">
+                    <label>Available</label>
+                    <input type="number" class="form-control" placeholder="Available Rooms"  [(ngModel)]="_new.available" (ngModelChange)="newRoom()">
+                    <div class="badge badge-danger" *ngIf="_new.available == null || _new.available == ''">Available rooms is required</div>
+                  </div>
+              </div>
+              <div class="col-md-12 col-12">
+                <div class="material-switch">
+                  <input id="newroomswitch" name="newroomswitch" type="checkbox" [(ngModel)]="_new.status" (ngModelChange)="newRoom()"  data-toggle="tooltip" data-placement="top" title="Enable / Disable Room" />
+                  <label for="newroomswitch" class="badge-success"></label>
+                </div>
+              </div>
+            </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-info" (click)="saveNew()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

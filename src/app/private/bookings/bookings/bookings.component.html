@@ -1,0 +1,57 @@
+<div id="wrapper">
+  
+    
+      <app-navigation></app-navigation>
+      
+      <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+          <app-topbar></app-topbar>
+          <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Bookings</h1>
+            
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <table class="table table-hover table-sm">
+                    <thead>
+                      <tr>
+                        <th>BookingID</th>
+                        <th  class="text-center">Quota</th>
+                        <th  class="text-center">BookingDate</th>
+                        <th  class="text-center">Checkin</th>
+                        <th  class="text-center">CheckOut</th>
+                        <th  class="text-center">Lead Member</th>
+                        <th  class="text-center">Status</th>
+                        <th class="text-right"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let booking of bookings">
+                        <td>C{{booking.bkid}}</td>
+                        <td  class="text-center">{{quotatype[booking.bktype]}}</td>
+                        <td  class="text-center">{{booking.bkdate}}</td>
+                        <td  class="text-center">{{booking.checkin}}</td>
+                        <td  class="text-center">{{booking.checkout}}</td>
+                        <td  class="text-center"><span [class]="booking.pname == null ? 'text-danger' : ''" [innerHTML]="booking.pname == null ? 'Unknown' : booking.pname"></span></td>
+                        <td  class="text-center"><span class="badge" [ngClass]="'badge-' + status[booking.bkstatus].class" [innerHTML]="status[booking.bkstatus].text"></span></td>
+                        <td class="text-right"><button class="btn btn-sm btn-info">View</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>   
+      </div>
+</div>

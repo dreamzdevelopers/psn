@@ -1,0 +1,42 @@
+<div class="d-flex flex-column sidebar-container">
+<!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-info sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" [routerLink]="['']">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <i class="fa fa-heart"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">{{app.info.name}}</div>
+      </a>
+      
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+      <div *ngFor="let nav of navigator">
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" attr.data-target="#{{nav.id}}" [routerLink]="nav.link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" aria-expanded="true" attr.aria-controls="{{nav.id}}">
+          <i [class]="nav.icon"></i>
+          <span>{{ nav.name }}</span></a>
+          <div id="{{nav.id}}" *ngIf="nav.sub" class="collapse" attr.aria-labelledby="heading{{nav.id}}" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <h6 class="collapse-header">{{nav.sub.name}}</h6>
+              <a *ngFor="let item of nav.sub.items" class="collapse-item" [routerLink]="item.link"><i *ngIf="item.icon" [class]="item.icon"></i> {{item.name}}</a>
+            </div>
+          </div>
+      </li>
+      
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+      </div>
+      
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+    </ul>  
+</div>

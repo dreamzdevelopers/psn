@@ -1,0 +1,34 @@
+<div class="boss-content">
+    <div class="boss">
+  
+        <div class="row boss-row">
+            <div class="col-12 align-self-center">
+              <div class="login-form">
+                <div [class]="App.view === 'front' ? 'flip-card' : 'flip-card flip'">
+
+                    <div class="flip-card-inner">
+                      <div class="flip-card-front">
+                          <h1 class="text-center">{{App.info.name}}<small class="d-block">Login {{App.info.version}}</small></h1>
+                          <hr />
+                          <login></login>
+                      </div>
+                      <div class="flip-card-back">
+                          <div class="d-table w-100 h-100">
+                            <div class="d-table-cell align-middle" >
+
+                                <h1 class="text-center">{{App.info.name}}<small class="d-block">Reset Password {{App.info.version}}</small></h1>
+                                <hr />
+                                <login-reset></login-reset>
+
+                            </div>
+                          </div>
+                      </div>
+                      
+                    </div>
+
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>

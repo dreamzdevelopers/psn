@@ -1,0 +1,55 @@
+<div id="wrapper">
+  
+    
+      <app-navigation></app-navigation>
+      
+      <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+          <app-topbar></app-topbar>
+          <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Site Administrators</h1>
+            
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="table-responsive"> 
+                    <table class="table table-sm table-hover">
+                      <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Mobile</th>
+                            <th>Email</th>
+                            <th>RegDate</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let admin of admins">
+                          <td><span [class]='admin.uname == null ? "text-danger" : ""' [innerHTML]="admin.uname == null ? 'NA' : admin.uname"></span></td>
+                          <td>{{admin.umobile}}</td>
+                          <td>{{admin.uemail}}</td>
+                          <td>{{admin.regdate}}</td>
+                          <td><span class="badge" [ngClass]="status[admin.ustatus].class">{{status[admin.ustatus].text}}</span></td>
+                          <td><button class="btn btn-sm btn-info">Edit</button></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>   
+      </div>
+</div>

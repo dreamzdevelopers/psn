@@ -1,0 +1,65 @@
+<div id="wrapper">
+  
+    
+    <app-navigation></app-navigation>
+    
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+        <app-topbar></app-topbar>
+        <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 class="h3 mb-0 text-gray-800">Site Users</h1>
+          
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <div class="text-left"><strong>Total Users: </strong>{{total}} | <strong>Showing Page:</strong> {{page}}/{{pages}}</div>
+                <hr />
+                <div class="table-responsive"> 
+                  <table class="table table-sm table-hover">
+                    <thead>
+                      <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Mobile</th>
+                          <th>Email</th>
+                          <th>RegDate</th>
+                          <th>Nationality</th>
+                          <th>Status</th>
+                          <th class="text-right"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let user of users; let i = index;">
+                          <th rows="th">{{i+1}}</th>
+                        <td><span [class]="user.uname == null ? 'text-danger' : ''" [innerHTML]="user.uname == null ? 'Incomplete Profile<sup>*</sup>' : user.uname" data-toggle="tooltip" data-placement="right" title="This user cannot do reservation"></span></td>
+                        
+                        <td>{{user.umobile}}</td>
+                        <td>{{user.uemail}}</td>
+                        <td>{{user.regdate}}</td>
+                        <td>{{user.unation}}</td>
+                        <td><span class="badge" [ngClass]="status[user.ustatus].class">{{status[user.ustatus].text}}</span></td>
+                        <td class="text-right"><button class="btn btn-sm btn-info"><i class="fa fa-eye" title="Click to View this user"></i></button> | <button class="btn btn-sm btn-danger"><i class="fa fa-ban" title="Click to Ban this user"></i></button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <hr />
+                <div class="text-left"><strong>Total Users: </strong>{{total}} | <strong>Showing Page:</strong> {{page}}/{{pages}}</div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>   
+    </div>
+</div>
